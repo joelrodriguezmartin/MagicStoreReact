@@ -1,0 +1,4 @@
+useEffect(() => {
+    setCardListComponent(<CardList cardList={cardList} addToDeck={addToDeck}></CardList>);
+    console.log(cardList);
+  }, [cardList]);
