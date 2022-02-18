@@ -3,18 +3,48 @@ import './App.css';
 import CardList from './components/CardList/CardList';
 import Deck from './components/Deck';
 import Navbar from './components/Navbar/Navbar';
-
+/**
+ * Componente padre de la App. Posee todas las variables de estado y los efectos.
+ * Estado: 
+ *    cardList -> Lista de cartas recibida de la app. Se envia a los componentes CardList y Card
+ *    dataIsLoaded -> Booleana que verifica que la api ha enviado los datos
+ *    url -> Url de la api a la que se hacen peticiones. Es reseteada desde el NavBar
+ *    deckList -> Lista de cartas seleccionadas por el usuario, pasadas al componente Deck. 
+ *                Es un array de objetos que contiene la carta y la cantidad de la carta.
+ *                La estructura se genera en la funcion addToDeck.
+ * Efecto:
+ *    Tenemos un useEffect escuchando cambios sobre la variable url que realiza petición a la
+ *    api cuando cambia.
+ * Variables:
+ *    totalCards -> Variable del total de cartas seleccionadas en el deck, se calcula sumando las cartas
+ *                  y la cantidad de cada una.
+ * @returns 
+ */
 function App() {
-
   const [cardList, setCardList] = useState([]);
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
   const [url, setUrl] = useState("https://api.scryfall.com/cards/search?order=set&q=e%3Augin&unique=prints");
   const [decklist, setDecklist] = useState([]);
 
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(url);
+      const data = await response.json();
+      setCardList(data.data);
+      setDataIsLoaded(true);
+    }
+    fetchData();
+  }, [url]);
+
   const totalCards = decklist
     .map(card => card.quantity)
     .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-
+  
+    /**
+   * Método que añade la carta obtenida al clickar un botón al deck siguiendo la lógica de 
+   * max 60 cartas totales y max 4 copias por carta.
+   * @param {*} card 
+   */
   function addToDeck(card) {
     let found = decklist.find(element => element.card === card);
     if (found !== undefined) {
@@ -36,6 +66,11 @@ function App() {
       }
     }
   }
+  /**
+   * Método que baja la cantidad de la carta obtenida al clickar un boton o la elimina si 
+   * solo queda 1.
+   * @param {*} card 
+   */
   function removeFromDeck(card) {
     let found = decklist.find(element => element.card === card);
     if (found !== undefined) {
@@ -51,17 +86,7 @@ function App() {
       }
     }
   }
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(url);
-      const data = await response.json();
-      setCardList(data.data);
-      setDataIsLoaded(true);
-    }
-    fetchData();
-  }, [url]);
-
+  //Renderizamos la vista con las cartas solo si han llegado los datos de la API
   if (dataIsLoaded) {
     return (
       <>

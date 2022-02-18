@@ -1,11 +1,10 @@
 import React from 'react'
-/*
-Valores de la api
-element.name, element.id, element.prices["eur"], element.set_name, 
-element.colors, element.type_line, element.cmc, 
-element.image_uris.png, element.scryfall_uri, element.rarity, 
-element.power, element.toughness));
-*/
+/**
+ * Componente Carta, recibe por props el valor de la carta concreta, y desde ahi los representamos.
+ * Además también recibe por props la función de añadir al deck, ya que la lista de cartas seleccionadas esta en el padre.
+ * @param {*} props 
+ * @returns 
+ */
 export default function Card(props) {
   return (
     <>

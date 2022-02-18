@@ -1,5 +1,5 @@
 import React from 'react'
-
+//Lista de urls de la api.
 const urls = {
     "ugin": "https://api.scryfall.com/cards/search?order=set&q=e%3Augin&unique=prints",
     "2016": "https://api.scryfall.com/cards/search?order=set&q=e%3Aw16&unique=prints",
@@ -7,7 +7,12 @@ const urls = {
     "zendikar": "https://api.scryfall.com/cards/search?order=set&q=e%3Azne&unique=prints",
     "twoplayer": "https://api.scryfall.com/cards/search?order=set&q=e%3Aitp&unique=prints"
 };
-
+/**
+ * Componente Navbar. Recibe por props el método setUrl del padre App y lo utiliza en el onClick del dropdown
+ * para cambiar la url de la api y utilizar un deck diferente.
+ * @param {*} props 
+ * @returns 
+ */
 export default function Navbar(props) {
 
     return (
